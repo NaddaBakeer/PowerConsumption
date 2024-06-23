@@ -1,1 +1,4 @@
-web: streamlit run app.py
+streamlit
+scikit-learn
+joblib
+
