@@ -1,8 +1,9 @@
+from sklearn.ensemble import RandomForestRegressor
+import math
 import streamlit as st 
 import pandas as pd
 import joblib
-from sklearn.ensemble import RandomForestRegressor
-import math
+
 
 # Load the model
 try:
