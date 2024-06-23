@@ -17,9 +17,9 @@ def predict_kw(input_data):
     prediction = model.predict(input_data)
     return prediction
 
-st.markdown("# Power Consumption Prediction")
+st.markdown("# Power Insight")
 
-st.write("Welcome to the power consumption prediction app")
+st.write("Welcome to Power Insight app")
 
 # Input fields
 shift = st.selectbox("Shift", (1, 2, 3))
