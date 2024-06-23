@@ -1,5 +1,5 @@
-pip install --upgrade pip
+pip==22.1.0
 streamlit
+joblib==1.2.0
+scikit-learn==1.2.3
 
-joblib == 1.2.0
-scikit-learn == 1.5.0
