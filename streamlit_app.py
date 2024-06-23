@@ -6,7 +6,7 @@ import math
 
 # Load the model
 try:
-    model = joblib.load(r'c:\Users\Nadda Bakeer\model.joblib')
+    model = joblib.load(r'model.joblib')
 except Exception as e:
     st.error(f"Error loading the model: {e}")
     st.stop()
