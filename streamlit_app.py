@@ -106,6 +106,7 @@ def display_logo_and_title_after_login():
         unsafe_allow_html=True
     )
     st.markdown("---")
+
 # Display the appropriate logo and title based on login state
 if st.session_state.logged_in:
     display_logo_and_title_after_login()
@@ -119,7 +120,7 @@ if not st.session_state.logged_in:
     password = st.sidebar.text_input("Password", type="password")
 
     # Check if the username and password match
-    if st.sidebar.button("Login" , type='primary'):
+    if st.sidebar.button("Login", type='primary'):
         if username == CORRECT_USERNAME and password == CORRECT_PASSWORD:
             st.session_state.logged_in = True
             st.sidebar.success("Logged in as {}".format(username))
@@ -134,12 +135,15 @@ if st.session_state.logged_in:
     # Initialize input data list
     CSV_FILE = 'Shift Prediction.csv'
     TEMP_CSV = 'Shift.csv'
-    temp_data=[]
+
     # Function to add a new shift
     def add_new_shift():
         if os.path.exists(TEMP_CSV):
             temp_data = pd.read_csv(TEMP_CSV)
-            shift = len(temp_data)
+            if len(temp_data) >= 3:
+                st.warning("You can only add up to 3 shifts.")
+                return
+            shift = len(temp_data) + 1
         else:
             shift = 1
 
@@ -154,20 +158,14 @@ if st.session_state.logged_in:
         }
         new_data_df = pd.DataFrame([current_data])
 
-        # Append to the main CSV without the header
-        if os.path.exists(CSV_FILE):
-            new_data_df.to_csv(CSV_FILE, mode='a', header=False, index=False)
-        else:
-            new_data_df.to_csv(CSV_FILE, mode='w', header=True, index=False)
-
         # Update the temporary CSV
         if os.path.exists(TEMP_CSV):
-            temp_data = pd.read_csv(TEMP_CSV).tail(2)  # Keep the last 2 shifts
+            temp_data = pd.read_csv(TEMP_CSV)
             temp_data = pd.concat([temp_data, new_data_df])
             temp_data.to_csv(TEMP_CSV, index=False)
         else:
             new_data_df.to_csv(TEMP_CSV, header=True, index=False)
-        
+
         st.success("Shift {} added successfully!".format(shift), icon="✅")
 
     # Default input fields for a single shift
@@ -204,5 +202,11 @@ if st.session_state.logged_in:
             })
             st.write("## Forecasted KW for Each Shift")
             st.write(results_df)
+
+            # Append to the main CSV without the header
+            results_df.to_csv(CSV_FILE, mode='a', header=not os.path.exists(CSV_FILE), index=False)
+            
+            # Clear the temporary CSV after appending to the main CSV
+            os.remove(TEMP_CSV)
         else:
             st.warning("No shifts added yet. Please add shifts before predicting.")
