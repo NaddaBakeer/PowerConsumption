@@ -106,7 +106,6 @@ def display_logo_and_title_after_login():
         unsafe_allow_html=True
     )
     st.markdown("---")
-
 # Display the appropriate logo and title based on login state
 if st.session_state.logged_in:
     display_logo_and_title_after_login()
@@ -120,7 +119,7 @@ if not st.session_state.logged_in:
     password = st.sidebar.text_input("Password", type="password")
 
     # Check if the username and password match
-    if st.sidebar.button("Login", type='primary'):
+    if st.sidebar.button("Login" , type='primary'):
         if username == CORRECT_USERNAME and password == CORRECT_PASSWORD:
             st.session_state.logged_in = True
             st.sidebar.success("Logged in as {}".format(username))
@@ -133,19 +132,18 @@ if st.session_state.logged_in:
     st.write("Welcome back, {} !".format(CORRECT_USERNAME))
 
     # Initialize input data list
-    if 'shift_data' not in st.session_state:
-        st.session_state.shift_data = []
-
-    CSV_FILE = 'Shift_Prediction.csv'
+    CSV_FILE = 'Shift Prediction.csv'
     TEMP_CSV = 'Shift.csv'
-
+    
     # Function to add a new shift
     def add_new_shift():
-        if os.path.exists(CSV_FILE):
-            shift_data = pd.read_csv(TEMP_CSV)
-            shift = len(shift_data) + 1
+        nonlocal shift_data
+        if os.path.exists(TEMP_CSV):
+            temp_data = pd.read_csv(TEMP_CSV)
+            shift = len(temp_data) + 1
         else:
             shift = 1
+
         current_data = {
             'Shift': shift,
             'MSU': MSU,
@@ -156,15 +154,21 @@ if st.session_state.logged_in:
             'Shutdown': Shutdown
         }
         new_data_df = pd.DataFrame([current_data])
+
+        # Append to the main CSV without the header
         if os.path.exists(CSV_FILE):
             new_data_df.to_csv(CSV_FILE, mode='a', header=False, index=False)
         else:
-            new_data_df.to_csv(CSV_FILE, header=True, index=False)
+            new_data_df.to_csv(CSV_FILE, mode='w', header=True, index=False)
 
-        st.session_state.shift_data.append(current_data)
-        temp_data_df = pd.DataFrame(st.session_state.shift_data)
-        temp_data_df.to_csv(TEMP_CSV, index=False)
-
+        # Update the temporary CSV
+        if os.path.exists(TEMP_CSV):
+            temp_data = pd.read_csv(TEMP_CSV).tail(2)  # Keep the last 2 shifts
+            temp_data = pd.concat([temp_data, new_data_df])
+            temp_data.to_csv(TEMP_CSV, index=False)
+        else:
+            new_data_df.to_csv(TEMP_CSV, header=True, index=False)
+        
         st.success("Shift {} added successfully!".format(shift), icon="✅")
 
     # Default input fields for a single shift
@@ -185,7 +189,7 @@ if st.session_state.logged_in:
     # Button to predict KW for all shifts
     if st.button('Predict', type='primary'):
         if os.path.exists(TEMP_CSV):
-            # Read shift data from CSV
+            # Read shift data from temporary CSV
             input_data = pd.read_csv(TEMP_CSV)
 
             # Predict KW for each shift
