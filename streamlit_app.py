@@ -139,7 +139,7 @@ if st.session_state.logged_in:
     def add_new_shift():
         if os.path.exists(TEMP_CSV):
             temp_data = pd.read_csv(TEMP_CSV)
-            shift = len(temp_data) + 1
+            shift = len(temp_data)
         else:
             shift = 1
 
