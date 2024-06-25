@@ -134,10 +134,9 @@ if st.session_state.logged_in:
     # Initialize input data list
     CSV_FILE = 'Shift Prediction.csv'
     TEMP_CSV = 'Shift.csv'
-    
+    temp_data=[]
     # Function to add a new shift
     def add_new_shift():
-        nonlocal shift_data
         if os.path.exists(TEMP_CSV):
             temp_data = pd.read_csv(TEMP_CSV)
             shift = len(temp_data) + 1
