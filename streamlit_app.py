@@ -120,7 +120,7 @@ if not st.session_state.logged_in:
     password = st.sidebar.text_input("Password", type="password")
 
     # Check if the username and password match
-    if st.sidebar.button("Login"):
+    if st.sidebar.button("Login", type='primary'):
         if username == CORRECT_USERNAME and password == CORRECT_PASSWORD:
             st.session_state.logged_in = True
             st.sidebar.success("Logged in as {}".format(username))
@@ -183,7 +183,7 @@ if st.session_state.logged_in:
         add_new_shift()
 
     # Button to predict KW for all shifts
-    if st.button('Predict'):
+    if st.button('Predict', type='primary'):
         if os.path.exists(TEMP_CSV):
             # Read shift data from CSV
             input_data = pd.read_csv(TEMP_CSV)
