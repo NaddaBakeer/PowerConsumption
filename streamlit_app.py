@@ -10,7 +10,6 @@ im = Image.open("favicon.png")
 st.set_page_config(
     page_title="PI",
     page_icon=im,
-    layout="wide",
 )
 # Define your logo URL
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Procter_%26_Gamble_logo.svg/1200px-Procter_%26_Gamble_logo.svg.png"
