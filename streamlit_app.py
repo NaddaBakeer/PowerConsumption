@@ -6,11 +6,7 @@ import math
 import os
 from PIL import Image
 
-st.set_option('theme.primaryColor', '#013BA2ff')
-st.set_option('theme.backgroundColor', '#FFFFFF')
-st.set_option('theme.secondaryBackgroundColor', '#31AEE5ff')
-st.set_option('theme.textColor', '#31333F')
-st.set_option('theme.font', 'sans serif')
+
 
 im = Image.open("favicon.png")
 st.set_page_config(
