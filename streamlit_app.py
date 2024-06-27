@@ -174,16 +174,27 @@ if st.session_state.logged_in:
 
         st.success("Shift {} added successfully!".format(shift), icon="✅")
 
+
+    # LineNotStaffed = st.slider("Line Not Staffed", 0, 10)
+    # STNU = st.slider("STNU", 0, 10)
+    # STNUVAR = st.slider("STNU VAR", 0, 10)
+    # EO = st.slider("EO NON SHIPPABLE", 0, 10)
+
+
     # Default input fields for a single shift
     MSU = st.number_input("MSU")
-    LineNotStaffed = st.slider("Line Not Staffed", 0, 10)
-    STNU = st.slider("STNU", 0, 10)
-    STNUVAR = st.slider("STNU VAR", 0, 10)
-    EO = st.slider("EO NON SHIPPABLE", 0, 10)
+    options = st.multiselect(
+    "Select Line Status",
+    ["Line Not Staffed", "STNU", "STNU VAR", "EO NON SHIPPABLE"])
     Shutdown = st.radio("Shutdown", ['Yes', 'No'], index=0, key="shutdown_1")
 
-    # Convert Shutdown to numerical value
+    # Convert to numerical values
+    LineNotStaffed = 1 if "Line Not Staffed" in options else 0
+    STNU = 1 if "STNU" in options else 0
+    STNUVAR = 1 if "STNU VAR" in options else 0
+    EO = 1 if "EO NON SHIPPABLE" in options else 0
     Shutdown = 1 if Shutdown == 'Yes' else 0
+
 
     # Button to add a new shift
     if st.button('Add Shift'):
