@@ -16,7 +16,7 @@ LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Procter_%2
 
 # Load the model
 try:
-    model = joblib.load('model.joblib')
+    model = joblib.load('model1.joblib')
 except Exception as e:
     st.error(f"Error loading the model: {e}")
     st.stop()
