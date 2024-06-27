@@ -184,7 +184,7 @@ if st.session_state.logged_in:
     # Default input fields for a single shift
     MSU = st.number_input("MSU")
     options = st.multiselect(
-    "Select Line Status",
+    "Line Status",
     ["Line Not Staffed", "STNU", "STNU VAR", "EO NON SHIPPABLE"])
     Shutdown = st.radio("Shutdown", ['Yes', 'No'], index=0, key="shutdown_1")
 
